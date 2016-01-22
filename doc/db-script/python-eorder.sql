@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50146
 File Encoding         : 65001
 
-Date: 2016-01-22 16:31:02
+Date: 2016-01-22 19:05:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -63,7 +63,7 @@ CREATE TABLE `auth_permission` (
   UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
   KEY `auth_permission_37ef4eb4` (`content_type_id`),
   CONSTRAINT `content_type_id_refs_id_d043b34a` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of auth_permission
@@ -92,6 +92,9 @@ INSERT INTO `auth_permission` VALUES ('21', 'Can delete user', '7', 'delete_user
 INSERT INTO `auth_permission` VALUES ('22', 'Can add user', '8', 'add_user');
 INSERT INTO `auth_permission` VALUES ('23', 'Can change user', '8', 'change_user');
 INSERT INTO `auth_permission` VALUES ('24', 'Can delete user', '8', 'delete_user');
+INSERT INTO `auth_permission` VALUES ('25', 'Can add blog post', '9', 'add_blogpost');
+INSERT INTO `auth_permission` VALUES ('26', 'Can change blog post', '9', 'change_blogpost');
+INSERT INTO `auth_permission` VALUES ('27', 'Can delete blog post', '9', 'delete_blogpost');
 
 -- ----------------------------
 -- Table structure for `auth_user`
@@ -116,7 +119,7 @@ CREATE TABLE `auth_user` (
 -- ----------------------------
 -- Records of auth_user
 -- ----------------------------
-INSERT INTO `auth_user` VALUES ('1', 'pbkdf2_sha256$12000$7w74nuoGNw5R$6IjQjsjnSP3H+IPwudsm7yqKJP3Z6Nl9KNbD4YGtXMA=', '2016-01-22 07:14:10', '1', 'xulin', '', '', '', '1', '1', '2016-01-22 06:47:37');
+INSERT INTO `auth_user` VALUES ('1', 'pbkdf2_sha256$12000$7w74nuoGNw5R$6IjQjsjnSP3H+IPwudsm7yqKJP3Z6Nl9KNbD4YGtXMA=', '2016-01-22 10:48:27', '1', 'xulin', '', '', '', '1', '1', '2016-01-22 06:47:37');
 
 -- ----------------------------
 -- Table structure for `auth_user_groups`
@@ -159,6 +162,23 @@ CREATE TABLE `auth_user_user_permissions` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `blog_blogpost`
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_blogpost`;
+CREATE TABLE `blog_blogpost` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) COLLATE utf8_bin NOT NULL,
+  `body` longtext COLLATE utf8_bin NOT NULL,
+  `timestamp` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of blog_blogpost
+-- ----------------------------
+INSERT INTO `blog_blogpost` VALUES ('1', 'test', 0x31323334, '2016-01-22 18:48:45');
+
+-- ----------------------------
 -- Table structure for `django_admin_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `django_admin_log`;
@@ -176,12 +196,13 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_37ef4eb4` (`content_type_id`),
   CONSTRAINT `content_type_id_refs_id_93d2d1f8` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `user_id_refs_id_c0d12874` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of django_admin_log
 -- ----------------------------
 INSERT INTO `django_admin_log` VALUES ('1', '2016-01-22 07:14:27', '1', '7', 0x31, 'User object', '2', 0x4368616E6765642070617373776F72642E);
+INSERT INTO `django_admin_log` VALUES ('2', '2016-01-22 10:48:47', '1', '9', 0x31, 'BlogPost object', '1', '');
 
 -- ----------------------------
 -- Table structure for `django_content_type`
@@ -194,7 +215,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_label` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of django_content_type
@@ -207,6 +228,7 @@ INSERT INTO `django_content_type` VALUES ('5', 'content type', 'contenttypes', '
 INSERT INTO `django_content_type` VALUES ('6', 'session', 'sessions', 'session');
 INSERT INTO `django_content_type` VALUES ('7', 'user', 'login', 'user');
 INSERT INTO `django_content_type` VALUES ('8', 'user', 'users', 'user');
+INSERT INTO `django_content_type` VALUES ('9', 'blog post', 'blog', 'blogpost');
 
 -- ----------------------------
 -- Table structure for `django_session`
@@ -223,7 +245,7 @@ CREATE TABLE `django_session` (
 -- ----------------------------
 -- Records of django_session
 -- ----------------------------
-INSERT INTO `django_session` VALUES ('94mifc966o1yjfxq578cro8vx6iw0meq', 0x4E3259334E575268597A52695A4467784E7A566A4E6A49784E5455784F444D7A4E5745344E7A67354E445A6A596A426C4E6A59344D6A703766513D3D, '2016-02-05 07:14:31');
+INSERT INTO `django_session` VALUES ('npg62prlf6l60a4wx5w3c56fcf98dhz5', 0x4D6D55794E32557A4E544E6B4E32517A4E6D45334E6D4A6D4E6A5A6B4E7A497A4D3251345A545133596A41775A6D49785A47466B59547037496C39686458526F5833567A5A584A66596D466A613256755A434936496D52715957356E6279356A62323530636D6C694C6D463164476775596D466A613256755A484D755457396B5A57784359574E725A57356B49697769583246316447686664584E6C636C39705A4349364D58303D, '2016-02-05 10:48:27');
 
 -- ----------------------------
 -- Table structure for `login_user`
@@ -251,9 +273,11 @@ CREATE TABLE `users_user` (
   `name` varchar(30) COLLATE utf8_bin NOT NULL,
   `password` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of users_user
 -- ----------------------------
 INSERT INTO `users_user` VALUES ('1', 'abcd', '1234');
+INSERT INTO `users_user` VALUES ('4', 'abcdef', '123456');
+INSERT INTO `users_user` VALUES ('5', 'abcde', '12345');

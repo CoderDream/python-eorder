@@ -36,12 +36,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
+    'blog',
+    'login',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -55,10 +58,33 @@ WSGI_APPLICATION = 'eorder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+from os import environ
+debug = not environ.get("APP_NAME", "")
+if debug:
+    # LOCAL
+    db_name = "python-eorder"
+    name = "root"
+    pwd = "1234"
+    host = "127.0.0.1"
+    port = "3306"
+else:
+    # SAE
+    import sae.const
+    db_name = sae.const.MYSQL_DB
+    name = sae.const.MYSQL_USER
+    pwd = sae.const.MYSQL_PASS
+    host = sae.const.MYSQL_HOST
+    port = sae.const.MYSQL_PORT
+    host_s = sae.const.MYSQL_HOST_S
+
 DATABASES = {
     'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': db_name,  # Or path to database file if using sqlite3.
+        'USER': name,  # Not used with sqlite3.
+        'PASSWORD': pwd,  # Not used with sqlite3.
+        'HOST': host,  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': port,  # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -75,8 +101,22 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ROOT=os.path.join(os.path.abspath(os.path.dirname(__file__)),'..')
+
+STATIC_ROOT = os.path.join(SITE_ROOT,'static')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    ("css", os.path.join(STATIC_ROOT,'css')),
+    ("js", os.path.join(STATIC_ROOT,'js')),
+    ("images", os.path.join(STATIC_ROOT,'images')),
+)
+
+#template
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)

@@ -6,10 +6,13 @@ admin.autodiscover()
 from login.views import homepage
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'eorder.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+                       # Examples:
+                       # url(r'^$', 'eorder.views.home', name='home'),
+                       # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
-    url('^$', homepage),
-)
+                       url(r'^admin/', include(admin.site.urls)),
+                       url('^$', homepage),
+                       # url(r'^login/', include('login.urls')),
+                       url(r'^login/', include('users.urls')),
+                       url(r'^blog/', include('blog.urls')),
+                       )
